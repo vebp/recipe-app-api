@@ -18,11 +18,22 @@ ARG DEV=false
 
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
+
+    # to use postgress database (NOTE: check whether the simpler options provide for IA works)
+    apk add --update --no-cache postgresql-client && \
+    apk add --update --no-cache --virtual .tmp-build-deps \
+        build-base postgresql-dev musl-dev  && \
+
+    # END to use postgress database
+
     /py/bin/pip install -r /tmp/requirements.txt && \
     if [ "$DEV" = "true" ]; then \
         /py/bin/pip install -r /tmp/requirements.dev.txt ; \
     fi && \
-    rm -rf /tmp && \
+    rm -rf /tmp && \ 
+    # another line added to use prostgress
+    apk del .tmp-build-deps && \
+    # END another line added to use prostgress
     adduser \ 
     --disabled-password \ 
     --no-create-home \
