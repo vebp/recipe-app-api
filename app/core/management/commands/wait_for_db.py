@@ -4,10 +4,12 @@ created to make sure db docker container is built
 """
 import time
 
-from psycopg2  import OperationalError as Psycopg2OpError
+from psycopg2 import OperationalError as Psycopg2OpError
 
-from django.db.utils import OperationalError # error django throws when database is not ready
+# error django throws when database is not ready
+from django.db.utils import OperationalError
 from django.core.management.base import BaseCommand
+
 
 class Command(BaseCommand):
     """
@@ -16,7 +18,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """Entrypoint for command."""
-        self.stdout.write('Waiting for database...') # not print????
+        self.stdout.write('Waiting for database...')  # not print????
         db_up = False
 
         while db_up is False:
@@ -26,5 +28,5 @@ class Command(BaseCommand):
             except (Psycopg2OpError, OperationalError):
                 self.stdout.write('Database unavailable, waiting 1 second...')
                 time.sleep(1)
-        
+
         self.stdout.write(self.style.SUCCESS('Database available!'))
