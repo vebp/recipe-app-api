@@ -18,7 +18,7 @@ class CommandTests(SimpleTestCase):
 
         call_command('wait_for_db')
 
-        patched_check.assert_called_once_with(database=['default'])
+        patched_check.assert_called_once_with(databases=['default'])
 
     #NOTE: we want to check the database, wait a few seconds and check again. In reality we would wait, but not on the test, which just slow down the testing, plus we have the results
     @patch('time.sleep')
@@ -30,4 +30,4 @@ class CommandTests(SimpleTestCase):
         call_command('wait_for_db')
         
         self.assertEqual(patched_check.call_count, 6)
-        patch_check.assert_called_once_with(database=['default'])
+        patched_check.assert_called_with(databases=['default'])
