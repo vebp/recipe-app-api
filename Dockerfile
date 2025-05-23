@@ -20,9 +20,10 @@ RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
 
     # to use postgress database (NOTE: check whether the simpler options provide for IA works)
-    apk add --update --no-cache postgresql-client && \
+    # jpeg-dev zlib zlib-dev are for Pillow version used
+    apk add --update --no-cache postgresql-client jpeg-dev && \
     apk add --update --no-cache --virtual .tmp-build-deps \
-        build-base postgresql-dev musl-dev  && \
+        build-base postgresql-dev musl-dev zlib zlib-dev  && \
 
     # END to use postgress database
 
